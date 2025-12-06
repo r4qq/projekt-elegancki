@@ -79,8 +79,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'KrakowBIP',
         'USER': 'root',
-        'PASSWORD': '',      # Trzymać jako secret, np. w .env
-        'HOST': '127.0.0.1',
+        'PASSWORD': 'secret',      # Trzymać jako secret, np. w .env
+        'HOST': 'db',
         'PORT': '3306',
     }
 }
