@@ -17,21 +17,43 @@ body {
 }
 .container__header {
   font-size: 2.4rem;
-  margin: 0 0 3rem;
+  margin: 0 0 5rem;
 }
 .container-form__box {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, 1fr);
+  margin-bottom: 3rem;
 }
 .container-form__box--label {
   align-self: center;
   font-size: 1.2rem;
 }
 .container-form__box--input {
-  padding: 0.5rem;
-  border: 1px solid gray;
-  border-radius: 2px;
+  padding: 0.8rem;
+  border: 1px solid #b7b7b7;
+  border-radius: 4px;
   outline: none;
   font-size: 1.4rem;
+  transition: border 0.2s, padding 0.2s;
+  border: 2px solid #b7b7b7;
+  padding: 0.4rem;
+}
+.container-form__box--input:focus {
+  padding: 0.4rem;
+  border: 2px solid #0052a5;
+}
+.container-form__btn {
+  margin: 1rem 0 0 50%;
+  transform: translateX(-50%);
+  padding: 1.2rem 5em;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+  color: #fff;
+  background-color: #0052a5;
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  font-weight: bold;
+  letter-spacing: 1px;
 }/*# sourceMappingURL=main.css.map */
