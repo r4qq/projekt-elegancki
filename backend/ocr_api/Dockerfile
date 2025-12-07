@@ -7,12 +7,15 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# System deps for Pillow / requests (extend here if you need chrome for screenshots)
+# System deps for Pillow / requests + Chromium for zrzuty ekranu stron
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libgl1 \
     libglib2.0-0 \
     ca-certificates \
+    chromium \
+    chromium-driver \
+    fonts-liberation \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m venv ${VIRTUAL_ENV}
@@ -26,7 +29,7 @@ COPY ocr_api/manage.py ./manage.py
 COPY ocr_api/ocr_api ./ocr_api
 COPY ocr_api/rest_api ./rest_api
 # Główny skrypt OCR
-COPY ocr_api/ocr_table.py ./ocr_table.py
+COPY ocr_table.py ./ocr_table.py
 
 EXPOSE 8000
 

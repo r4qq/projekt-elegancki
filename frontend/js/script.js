@@ -70,10 +70,14 @@ form.addEventListener('submit', async event => {
 
 	if (selectedFile) {
 		formData.append('image', selectedFile, selectedFile.name || 'image.png');
-	} else if (imageUrl) {
+	}
+
+	if (imageUrl) {
 		formData.append('url', imageUrl);
-	} else {
-		setStatus('Dodaj plik PNG lub podaj link do pliku.', true);
+	}
+
+	if (!selectedFile && !imageUrl) {
+		setStatus('Dodaj plik PNG lub podaj link do strony z obrazem.', true);
 		return;
 	}
 
