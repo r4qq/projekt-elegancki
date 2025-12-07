@@ -86,6 +86,12 @@ body {
   background-color: #0075e2;
 }
 
+.response {
+    margin-top: 3rem;
+    font-size: 1.6rem;
+    text-wrap: auto;
+}
+
 @media (min-width: 500px) {
   .header {
     position: relative;
