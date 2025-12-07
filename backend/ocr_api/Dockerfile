@@ -26,7 +26,7 @@ COPY ocr_api/manage.py ./manage.py
 COPY ocr_api/ocr_api ./ocr_api
 COPY ocr_api/rest_api ./rest_api
 # Główny skrypt OCR
-COPY ocr_table.py ./ocr_table.py
+COPY ocr_api/ocr_table.py ./ocr_table.py
 
 EXPOSE 8000
 
