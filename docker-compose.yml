@@ -34,6 +34,16 @@ services:
       - DB_USER=root
       - DB_PASSWORD=secret
 
+  ocr-api:
+    build:
+      context: ./backend
+      dockerfile: ocr_api/Dockerfile
+    ports:
+      - "8888:8000"
+    environment:
+      - DJANGO_SECRET_KEY=dev-secret-key
+      - DJANGO_DEBUG=1
+
   frontend:
     build: ./frontend
     ports:
