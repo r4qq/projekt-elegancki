@@ -54,7 +54,6 @@ body {
   font-size: 1.2rem;
 }
 .container-form__box--input {
-  padding: 0.8rem;
   border: 1px solid #b7b7b7;
   border-radius: 4px;
   outline: none;
@@ -84,6 +83,43 @@ body {
 .container-form__btn:hover {
   cursor: pointer;
   background-color: #0075e2;
+}
+
+.drag-zone {
+  padding: 1em 2em;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  border: 3px dashed #888;
+  border-radius: 10px;
+  text-align: center;
+  color: #555;
+  font-size: 18px;
+  background-color: #f4f6fb;
+  transition: 0.2s;
+}
+.drag-zone__paragraph {
+  font-size: 1.4rem;
+}
+
+.drag-zone.over {
+  border-color: #0069dd;
+}
+
+.file-list {
+  margin: 1rem 0 1rem 0;
+  font-size: 1.4rem;
+  list-style: none;
+}
+
+.new-file {
+  display: none;
+}
+
+.add-file {
+  cursor: pointer;
+  color: #0052a5;
+  font-weight: bold;
 }
 
 @media (min-width: 500px) {
@@ -116,21 +152,8 @@ body {
     padding: 1.2rem 4em;
     font-size: 1.8rem;
   }
-}
-.drag-zone {
-  display: flex;
-  flex-direction: column;
-  border: 3px dashed #888;
-  border-radius: 10px;
-  text-align: center;
-  color: #555;
-  font-size: 18px;
-  background-color: #f4f6fb;
-  transition: 0.2s;
-}
-
-.drag-zone.over {
-  background-color: #e0ffe0;
-  border-color: #28a745;
-  color: #28a745;
-}/*# sourceMappingURL=main.css.map */
+  .drag-zone {
+    max-width: 450px;
+    margin: 0 auto;
+  }
+}/*# sourceMappingURL=fetch.css.map */
