@@ -4,7 +4,7 @@ services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_DATABASE: KrakowBIP
+      MYSQL_DATABASE: BIP
       MYSQL_ROOT_PASSWORD: secret
     volumes:
       - db_data:/var/lib/mysql
@@ -24,13 +24,13 @@ services:
     volumes:
       - ./backend:/app
     ports:
-      - "8000:8000"
+      - "8010:8000"
     depends_on:
       db:
         condition: service_healthy
     environment:
       - DB_HOST=db
-      - DB_NAME=KrakowBIP
+      - DB_NAME=BIP
       - DB_USER=root
       - DB_PASSWORD=secret
 
