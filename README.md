@@ -15,3 +15,5 @@ Wymagany jest zainstalowany **Docker** oraz **Docker Compose**.
 
 Po uruchomieniu aplikacja jest dostępna pod adresem:
 **http://localhost:80** (lub po prostu `http://localhost`)
+## /Docs
+Folder docs zawiera definicję JSON-a
