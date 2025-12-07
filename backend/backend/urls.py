@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from src.views import add_lost_item
+from src.views import add_lost_item, list_lost_items
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('form-post/', add_lost_item, name='form-post'),
+    path('items/', list_lost_items, name='items'),
 ]

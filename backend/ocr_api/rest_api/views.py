@@ -5,7 +5,9 @@ import subprocess
 import sys
 import tempfile
 from pathlib import Path
+from datetime import datetime, timezone as dt_timezone
 import time
+import os
 
 import requests
 from html.parser import HTMLParser
@@ -17,6 +19,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from django.conf import settings
 from django.http import JsonResponse, HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
+
+# Docelowy backend Django (serwis z modelem LostItem)
+BACKEND_API_BASE = os.environ.get("BACKEND_API_BASE") or "http://backend:8000"
+ADD_ITEM_URL = f"{BACKEND_API_BASE.rstrip('/')}/form-post/"
 
 
 def _write_upload_to_tmp(upload, tmp_dir: Path) -> Path:
@@ -208,6 +214,51 @@ def _run_ocr_table(image_path: Path) -> Path:
     return output_items
 
 
+def _save_records_to_backend(records: list[dict]) -> tuple[list[str], list[str]]:
+    """
+    Zapisuje rekordy do serwisu backend (model LostItem) poprzez endpoint form-post.
+    Zwraca listę zapisanych identyfikatorów oraz listę komunikatów błędów.
+    """
+    saved_ids: list[str] = []
+    errors: list[str] = []
+
+    for idx, rec in enumerate(records):
+        payload = {
+            "item": rec.get("item") or rec.get("Item"),
+            "foundDateTime": rec.get("foundDateTime") or rec.get("found_datetime"),
+            "location": rec.get("location"),
+            "metadata": rec.get("metadata") or {},
+        }
+
+        # Domknięcia danych, by nie powodować 400 na brak wymaganych pól
+        if not payload["item"]:
+            payload["item"] = "Nieznany przedmiot"
+            payload["metadata"]["note_item_fallback"] = True
+        if not payload["location"]:
+            payload["location"] = "Nieznane miejsce"
+            payload["metadata"]["note_location_fallback"] = True
+        if not payload["foundDateTime"]:
+            payload["foundDateTime"] = datetime.now(tz=dt_timezone.utc).isoformat()
+            payload["metadata"]["note_date_fallback"] = True
+        payload["metadata"]["source"] = payload["metadata"].get("source") or "ocr"
+        payload["metadata"]["row_index"] = idx
+
+        try:
+            resp = requests.post(ADD_ITEM_URL, json=payload, timeout=20)
+            if resp.ok:
+                try:
+                    resp_json = resp.json()
+                    saved_ids.append(str(resp_json.get("id", "")))
+                except Exception:
+                    saved_ids.append("")
+            else:
+                errors.append(f"[{idx}] HTTP {resp.status_code}: {resp.text}")
+        except Exception as exc:
+            errors.append(f"[{idx}] {exc}")
+
+    return saved_ids, errors
+
+
 @csrf_exempt
 def ocr_table_view(request):
     if request.method != "POST":
@@ -266,7 +317,18 @@ def ocr_table_view(request):
 
             items_path = _run_ocr_table(img_path)
             data = json.loads(items_path.read_text(encoding="utf-8"))
-            return JsonResponse(data, safe=False)
+            records = data if isinstance(data, list) else data.get("records", [])
+
+            saved_ids, errors = _save_records_to_backend(records)
+            saved_count = len([i for i in saved_ids if i])
+            status_flag = "ok" if saved_count > 0 and not errors else "nok"
+            status_code = 200 if status_flag == "ok" else 207
+
+            return JsonResponse({
+                "status": status_flag,
+                "saved": saved_count,
+                "errors": errors,
+            }, status=status_code)
         except ValueError as exc:
             return HttpResponseBadRequest(str(exc))
         except Exception as exc:

@@ -9,5 +9,5 @@ class LostItem(models.Model):
     metadata = models.JSONField(default=dict, blank=True)
 
     def __str__(self):
-        return self.name
+        return self.item
     
