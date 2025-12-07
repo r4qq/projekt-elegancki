@@ -2,6 +2,11 @@
 
 Uruchamia endpoint `POST /api/ocr-table/` zwracający JSON jak `output/*_items.json` z `ocr_table.py`.
 
+Endpoint akceptuje teraz kilka prostych sposobów przekazania obrazu:
+- multipart/form-data: pole pliku o nazwie `image`, `file`, `photo` lub `upload`
+- JSON: pole `image_base64` (czysty base64 lub data URL) lub `url`
+- surowe body obrazka z nagłówkiem `Content-Type: image/*`
+
 ## Budowanie i uruchamianie (Docker)
 
 ```bash
@@ -21,6 +26,14 @@ Invoke-WebRequest -Uri "http://localhost:8888/api/ocr-table/" `
   -OutFile "response.json"
 
 Get-Content response.json
+```
+
+### PowerShell: alternatywne nazwy pól
+```powershell
+Invoke-WebRequest -Uri "http://localhost:8888/api/ocr-table/" `
+  -Method Post `
+  -Form @{ file = Get-Item "table.png" } `
+  -OutFile "response.json"
 ```
 
 ## Wywołanie (Node.js, fetch)
@@ -46,8 +59,38 @@ const data = await res.json();
 console.log(data);
 ```
 
+### JSON (base64)
+```bash
+BASE64=$(base64 -w0 table.png) # na Windows: certutil -encodehex -f table.png 12 | tr -d '\n' (lub narzędzie do base64)
+curl -X POST http://localhost:8888/api/ocr-table/ \
+  -H "Content-Type: application/json" \
+  -d "{\"image_base64\": \"$BASE64\"}"
+```
+
+### JSON (data URL)
+```bash
+curl -X POST http://localhost:8888/api/ocr-table/ \
+  -H "Content-Type: application/json" \
+  -d "{\"image_base64\": \"data:image/png;base64,AAA...\"}"
+```
+
+### URL do obrazka
+```bash
+curl -X POST http://localhost:8888/api/ocr-table/ \
+  -F url=https://example.com/sample.png
+```
+
+### Surowy obraz (body)
+```bash
+curl -X POST http://localhost:8888/api/ocr-table/ \
+  -H "Content-Type: image/png" \
+  --data-binary @table.png
+```
+
 ## Dane wejściowe
-- `image` (multipart/form-data) **lub** `url` (bezpośredni URL do pliku graficznego).
+- multipart: `image`/`file`/`photo`/`upload` (plik) lub `url`
+- JSON: `image_base64` (base64 lub data URL) lub `url`
+- surowe body obrazu (Content-Type: image/*)
 
 ## Wynik
 Lista rekordów jak w plikach `output/*_items.json` generowanych przez `ocr_table.py`.
