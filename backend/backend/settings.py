@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-n&=_!w@3tc80+5+d8wq8b79tb8cd=ns_@+)6cp@wogdwt$28!#
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*", "backend"]
 
 
 # Application definition
@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'KrakowBIP',
+        'NAME': 'BIP',
         'USER': 'root',
         'PASSWORD': 'secret',      # Trzymać jako secret, np. w .env
         'HOST': 'db',
