@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przedmioty znalezione - formularz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/fetch.css">
+</head>
+<body>
+    <div class="header">
+        <a href="index.html" class="nav-right"><img src="./img/arrow_right.svg" alt=""></a>
+        <img src="./img/herb.png" alt="Herb Polski" class="header__img">
+        <p class="header__paragraph">gov.pl</p>
+    </div>
+    <div class="container wrapper">
+        <h2 class="container__header">Wprowadź adres URL Biuletynu Informacji Publicznej.</h2>
+
+        <form id="ocr-form" class="container-form">
+            <div class="container-form__box">
+                <label for="image-url" class="container-form__box--label">Adres URL Biuletynu Informacji Publicznej.</label>
+                <input type="url" id="image-url" placeholder="Adres URL BIP" class="container-form__box--input">
+            </div>
+
+            <div class="drag-zone">
+                <p class="drag-zone__paragraph"><span><label for="new-file" class="add-file">Dodaj plik</label><input type="file" accept="image/png" id="new-file" class="new-file"> lub przeciągnij go na to pole.</p>
+                <p class="drag-zone__paragraph">Maksymalny rozmiar pliku: 25 MB.</p>
+            </div>
+            <ul class="file-list"></ul>
+
+            <button type="submit" class="container-form__btn">Wyślij</button>
+            <p class="status" id="status">
+
+            </p>
+            <p class="response" id="response"></p>
+        </form>
+    </div>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
