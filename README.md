@@ -5,7 +5,7 @@ Wymagany jest zainstalowany **Docker** oraz **Docker Compose**.
 1.  **Sklonuj repozytorium** (jeśli jeszcze tego nie zrobiłeś).
 2.  **Przejdź do głównego katalogu**:
     ```bash
-    cd projekt-elegancki
+    cd zadanie-hacknation-2025
     ```
 3.  **Uruchom projekt**:
     ```bash
